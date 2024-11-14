@@ -1,20 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:medistockmovil/screen/edit_profile_screen.dart';
+import 'package:medistockmovil/screen/home_screen.dart';
+import 'package:medistockmovil/screen/login_screen.dart';
+import 'package:medistockmovil/screen/notifications_screen.dart';
+import 'package:medistockmovil/screen/search_screen.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const MyApp());
 }
 
-class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hola mundo'),
-        ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'MediStock Móvil',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      // Definimos la ruta inicial como LoginScreen
+      initialRoute: '/',
+      // Configuración de rutas
+      routes: {
+        '/': (context) => const LoginScreen(),  // Ruta inicial que muestra la pantalla de login
+        '/home': (context) => const HomeScreen(),      // Ruta de la pantalla de inicio
+        '/edit_profile': (context) => const EditProfileScreen(),  // Ruta de la pantalla de editar perfil
+        '/search': (context) => const SearchScreen(),  // Ruta de la pantalla de búsqueda
+        '/notifications': (context) => const NotificationsScreen(), // Ruta de la pantalla de notificaciones
+      },
     );
   }
 }
