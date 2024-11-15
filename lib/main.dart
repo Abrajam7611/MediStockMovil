@@ -4,6 +4,7 @@ import 'package:medistockmovil/screen/home_screen.dart';
 import 'package:medistockmovil/screen/login_screen.dart';
 import 'package:medistockmovil/screen/notifications_screen.dart';
 import 'package:medistockmovil/screen/search_screen.dart';
+import 'package:medistockmovil/screen/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -29,6 +30,7 @@ class MyApp extends StatelessWidget {
         '/edit_profile': (context) => const EditProfileScreen(),  // Ruta de la pantalla de editar perfil
         '/search': (context) => const SearchScreen(),  // Ruta de la pantalla de búsqueda
         '/notifications': (context) => const NotificationsScreen(), // Ruta de la pantalla de notificaciones
+        '/settings': (context) => const SettingsScreen(), // Agrega la ruta
       },
     );
   }
