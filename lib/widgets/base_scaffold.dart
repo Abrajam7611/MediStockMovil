@@ -82,7 +82,7 @@ class _BaseScaffoldState extends State<BaseScaffold> {
             icon: Icon(
               Icons.settings,
               color: _selectedIndex == 3
-                  ? const Color.fromARGB(255, 36, 132, 211)
+                  ? Colors.blue
                   : Colors.grey.withOpacity(0.5),
             ),
             label: '',
