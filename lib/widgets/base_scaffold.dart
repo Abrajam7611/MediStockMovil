@@ -55,7 +55,7 @@ class _BaseScaffoldState extends State<BaseScaffold> {
             icon: Icon(
               Icons.home,
               color: _selectedIndex == 0
-                  ? Colors.blue
+                  ? const Color.fromARGB(255, 31, 132, 214)
                   : Colors.grey.withOpacity(0.5),
             ),
             label: '',
