@@ -14,7 +14,7 @@ class SearchScreen extends StatelessWidget {
           'Buscar',
           style: TextStyle(fontSize: 20),
         ),
-      ),
+      ), 
     );
   }
 }

@@ -14,7 +14,7 @@ class NotificationsScreen extends StatelessWidget {
           'Notificaciones',
           style: TextStyle(fontSize: 20),
         ),
-      ),
+      ), 
     );
   }
 }

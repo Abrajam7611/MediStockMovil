@@ -1,11 +1,16 @@
-// lib/widgets/base_scaffold.dart
 import 'package:flutter/material.dart';
 
 class BaseScaffold extends StatefulWidget {
   final Widget body;
   final String title;
+  final List<Widget>? actions;
 
-  const BaseScaffold({super.key, required this.body, required this.title});
+  const BaseScaffold({
+    super.key,
+    required this.body,
+    required this.title,
+    this.actions,
+  });
 
   @override
   _BaseScaffoldState createState() => _BaseScaffoldState();
@@ -19,7 +24,6 @@ class _BaseScaffoldState extends State<BaseScaffold> {
       _selectedIndex = index;
     });
 
-    // Aquí puedes manejar la navegación según el índice seleccionado
     switch (index) {
       case 0:
         Navigator.pushReplacementNamed(context, '/home');
@@ -42,6 +46,7 @@ class _BaseScaffoldState extends State<BaseScaffold> {
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: const Color.fromARGB(255, 101, 166, 231),
+        actions: widget.actions, // Agregar acciones personalizadas
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigationBar(
@@ -87,7 +92,7 @@ class _BaseScaffoldState extends State<BaseScaffold> {
         onTap: _onItemTapped,
         showSelectedLabels: false,
         showUnselectedLabels: false,
-        iconSize: 40, // Tamaño aumentado de los iconos
+        iconSize: 40,
         type: BottomNavigationBarType.fixed,
       ),
     );
