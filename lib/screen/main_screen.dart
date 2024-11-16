@@ -19,6 +19,7 @@ class MyApp extends StatelessWidget {
       home: const LoginScreen(), // Pantalla inicial
       routes: {
         '/home': (context) => const HomeScreen(), // Ruta para HomeScreen
+        '/login': (context) => const LoginScreen(), // Ruta para LoginScreen
       },
     );
   }

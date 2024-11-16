@@ -19,25 +19,21 @@ class BaseScaffold extends StatefulWidget {
 class _BaseScaffoldState extends State<BaseScaffold> {
   int _selectedIndex = 0;
 
+  final List<String> _routes = [
+    '/home',
+    '/edit_profile',
+    '/notifications',
+    '/settings',
+  ];
+
   void _onItemTapped(int index) {
+    if (index == _selectedIndex) return; // Evita recargar la misma pantalla
+
     setState(() {
       _selectedIndex = index;
     });
 
-    switch (index) {
-      case 0:
-        Navigator.pushReplacementNamed(context, '/home');
-        break;
-      case 1:
-        Navigator.pushReplacementNamed(context, '/edit_profile');
-        break;
-      case 2:
-        Navigator.pushNamed(context, '/notifications');
-        break;
-      case 3:
-        Navigator.pushNamed(context, '/settings');
-        break;
-    }
+    Navigator.pushReplacementNamed(context, _routes[index]);
   }
 
   @override
@@ -46,53 +42,35 @@ class _BaseScaffoldState extends State<BaseScaffold> {
       appBar: AppBar(
         title: Text(widget.title),
         backgroundColor: const Color.fromARGB(255, 101, 166, 231),
-        actions: widget.actions, // Agregar acciones personalizadas
+        actions: widget.actions,
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
+        items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home,
-              color: _selectedIndex == 0
-                  ? Colors.blue
-                  : Colors.grey.withOpacity(0.5),
-            ),
-            label: '',
+            icon: Icon(Icons.home),
+            label: 'Inicio',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.person,
-              color: _selectedIndex == 1
-                  ? Colors.blue
-                  : Colors.grey.withOpacity(0.5),
-            ),
-            label: '',
+            icon: Icon(Icons.person),
+            label: 'Perfil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.notifications,
-              color: _selectedIndex == 2
-                  ? Colors.blue
-                  : Colors.grey.withOpacity(0.5),
-            ),
-            label: '',
+            icon: Icon(Icons.notifications),
+            label: 'Notificaciones',
           ),
           BottomNavigationBarItem(
-            icon: Icon(
-              Icons.settings,
-              color: _selectedIndex == 3
-                  ? Colors.blue
-                  : Colors.grey.withOpacity(0.5),
-            ),
-            label: '',
+            icon: Icon(Icons.settings),
+            label: 'Ajustes',
           ),
         ],
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.blue, // Color del ícono seleccionado
+        unselectedItemColor: Colors.grey.withOpacity(0.5), // Color de íconos no seleccionados
         onTap: _onItemTapped,
-        showSelectedLabels: false,
+        showSelectedLabels: true,
         showUnselectedLabels: false,
-        iconSize: 40,
+        iconSize: 30,
         type: BottomNavigationBarType.fixed,
       ),
     );

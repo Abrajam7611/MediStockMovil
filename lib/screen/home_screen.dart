@@ -85,23 +85,40 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMedicamentosList() {
-    return ListView.builder(
-      padding: const EdgeInsets.all(8.0),
-      itemCount: _filteredMedicamentos.length,
-      itemBuilder: (context, index) {
-        return Card(
-          elevation: 2,
-          margin: const EdgeInsets.symmetric(vertical: 4),
-          child: ListTile(
-            title: Text(_filteredMedicamentos[index]),
-            leading: const Icon(Icons.medical_services_outlined),
-            onTap: () {
-              // Acciones al seleccionar un medicamento (futuro)
-              print('Seleccionado: ${_filteredMedicamentos[index]}');
+    return _filteredMedicamentos.isEmpty
+        ? const Center(
+            child: Text(
+              'No se encontraron medicamentos.',
+              style: TextStyle(fontSize: 16, color: Colors.grey),
+            ),
+          )
+        : ListView.builder(
+            padding: const EdgeInsets.all(8.0),
+            itemCount: _filteredMedicamentos.length,
+            itemBuilder: (context, index) {
+              return Card(
+                elevation: 2,
+                margin: const EdgeInsets.symmetric(vertical: 4),
+                child: ListTile(
+                  title: Text(
+                    _filteredMedicamentos[index],
+                    style: const TextStyle(fontSize: 16),
+                  ),
+                  leading: const Icon(Icons.medical_services_outlined),
+                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                  onTap: () {
+                    // Acciones al seleccionar un medicamento
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          'Seleccionaste: ${_filteredMedicamentos[index]}',
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              );
             },
-          ),
-        );
-      },
-    );
+          );
   }
 }
