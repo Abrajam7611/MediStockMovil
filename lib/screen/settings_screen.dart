@@ -11,7 +11,7 @@ class SettingsScreen extends StatelessWidget {
     final isDarkMode = theme.brightness == Brightness.dark;
 
     void toggleTheme() {
-      final newThemeMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
+      // final newThemeMode = isDarkMode ? ThemeMode.light : ThemeMode.dark;
     }
 
     return BaseScaffold(

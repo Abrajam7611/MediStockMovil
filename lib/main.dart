@@ -3,7 +3,6 @@ import 'package:medistockmovil/screen/edit_profile_screen.dart';
 import 'package:medistockmovil/screen/home_screen.dart';
 import 'package:medistockmovil/screen/login_screen.dart';
 import 'package:medistockmovil/screen/notifications_screen.dart';
-import 'package:medistockmovil/screen/search_screen.dart';
 import 'package:medistockmovil/screen/settings_screen.dart';
 
 void main() {

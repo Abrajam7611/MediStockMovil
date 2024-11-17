@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; // Asegúrate de importar la pantalla de inicio
+import 'home_screen.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginScreenState createState() => _LoginScreenState();
+  LoginScreenState createState() => LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // Aquí podrías agregar la lógica de autenticación, por ahora solo redirigimos
+      
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(

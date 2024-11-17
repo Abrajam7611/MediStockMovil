@@ -13,10 +13,10 @@ class BaseScaffold extends StatefulWidget {
   });
 
   @override
-  _BaseScaffoldState createState() => _BaseScaffoldState();
+  BaseScaffoldState createState() => BaseScaffoldState();
 }
 
-class _BaseScaffoldState extends State<BaseScaffold> {
+class BaseScaffoldState extends State<BaseScaffold> {
   int _selectedIndex = 0;
 
   final List<String> _routes = [
