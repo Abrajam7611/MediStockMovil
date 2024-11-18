@@ -41,6 +41,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.18.0"
+  cupertino_icons:
+    dependency: transitive
+    description:
+      name: cupertino_icons
+      sha256: ba631d1c7f7bef6b729a622b7b752645a2d076dba9976925b8f25725a30e1ee6
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.8"
   fake_async:
     dependency: transitive
     description:
@@ -147,6 +155,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.0"
+  pub_dev:
+    dependency: "direct main"
+    description:
+      name: pub_dev
+      sha256: b5fb9aeac354edc3a2a0bb4c2f49322e6ebc6bc78f5e1281812b1b343eda131b
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0+1"
   sky_engine:
     dependency: transitive
     description: flutter

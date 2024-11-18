@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:medistockmovil/screen/home_screen.dart';
-import 'package:medistockmovil/screen/login_screen.dart';
+import 'home_screen.dart';
+import 'login_screen.dart';
 
 void main() {
   runApp(const MyApp());

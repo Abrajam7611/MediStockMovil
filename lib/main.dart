@@ -1,10 +1,12 @@
+
 import 'package:flutter/material.dart';
-import 'package:medistockmovil/screen/edit_profile_screen.dart';
-import 'package:medistockmovil/screen/home_screen.dart';
-import 'package:medistockmovil/screen/login_screen.dart';
-import 'package:medistockmovil/screen/notifications_screen.dart';
-import 'package:medistockmovil/screen/search_screen.dart';
-import 'package:medistockmovil/screen/settings_screen.dart';
+
+import 'screen/edit_profile_screen.dart';
+import 'screen/home_screen.dart';
+import 'screen/login_screen.dart';
+import 'screen/notifications_screen.dart';
+import 'screen/search_screen.dart';
+import 'screen/settings_screen.dart';
 
 void main() {
   runApp(const MyApp());
