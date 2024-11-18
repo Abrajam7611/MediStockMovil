@@ -9,7 +9,7 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class _EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   String defaultUsername = "NombreUsuario";
 
   @override
@@ -131,7 +131,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ],
         ),
-      ), actions: [], 
+      ), actions: const [], 
     );
   }
 }
