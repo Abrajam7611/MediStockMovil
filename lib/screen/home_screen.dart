@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import '../widgets/base_scaffold.dart';
+import '../widgets/base_scaffold.dart'; // Asegúrate de que esta clase esté correctamente implementada.
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,41 +12,33 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isSearching = false; // Controla si estamos en modo búsqueda
   final TextEditingController _searchController = TextEditingController();
 
-  List<dynamic> _medicamentos = []; // Lista de medicamentos desde la API
-  List<dynamic> _filteredMedicamentos = []; // Lista filtrada que se muestra en pantalla
+  // Lista predefinida de medicamentos
+  final List<Map<String, String>> _medicamentos = [
+    {'nombre': 'Paracetamol', 'descripcion': 'Analgésico y antipirético'},
+    {'nombre': 'Ibuprofeno', 'descripcion': 'Antiinflamatorio y analgésico'},
+    {'nombre': 'Amoxicilina', 'descripcion': 'Antibiótico'},
+    {'nombre': 'Omeprazol', 'descripcion': 'Inhibidor de la bomba de protones'},
+    {'nombre': 'Losartán', 'descripcion': 'Antihipertensivo'},
+    {'nombre': 'Metformina', 'descripcion': 'Antidiabético oral'},
+    {'nombre': 'Cetirizina', 'descripcion': 'Antihistamínico'},
+    {'nombre': 'Diclofenaco', 'descripcion': 'Analgésico y antiinflamatorio'},
+    {'nombre': 'Ranitidina', 'descripcion': 'Bloqueador de ácido estomacal'},
+  ];
+
+  List<Map<String, String>> _filteredMedicamentos = []; // Lista filtrada
   bool _isLoading = true; // Controla si estamos cargando datos
-  String _errorMessage = ''; // Almacena errores de la carga
 
   @override
   void initState() {
     super.initState();
-    _fetchMedicamentos(); // Cargar medicamentos desde la API al iniciar
+    _initializeMedicamentos(); // Inicializa los datos
   }
 
-  Future<void> _fetchMedicamentos() async {
-    try {
-      final response = await http.get(
-        Uri.parse('http://127.0.0.1:8000/productos/'),
-      );
-
-      if (response.statusCode == 200) {
-        setState(() {
-          _medicamentos = json.decode(response.body);
-          _filteredMedicamentos = _medicamentos; // Inicializar lista filtrada
-          _isLoading = false;
-        });
-      } else {
-        setState(() {
-          _errorMessage = 'Error al cargar productos: ${response.statusCode}';
-          _isLoading = false;
-        });
-      }
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'Error al cargar productos: $e';
-        _isLoading = false;
-      });
-    }
+  void _initializeMedicamentos() {
+    setState(() {
+      _filteredMedicamentos = _medicamentos; // Inicializar lista filtrada
+      _isLoading = false; // Finaliza el estado de carga
+    });
   }
 
   void _filterMedicamentos(String query) {
@@ -58,8 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         _filteredMedicamentos = _medicamentos
             .where((medicamento) =>
-                medicamento['nombre']
-                    .toString()
+                medicamento['nombre']!
                     .toLowerCase()
                     .contains(query.toLowerCase()))
             .toList();
@@ -83,7 +72,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   hintText: 'Buscar medicamentos...',
                   border: InputBorder.none,
                 ),
-                onChanged: _filterMedicamentos, // Actualiza la lista filtrada
+                onChanged: _filterMedicamentos,
               ),
             ),
           ),
@@ -104,52 +93,44 @@ class _HomeScreenState extends State<HomeScreen> {
       ],
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
-          : _errorMessage.isNotEmpty
-              ? Center(
+          : _filteredMedicamentos.isEmpty
+              ? const Center(
                   child: Text(
-                    _errorMessage,
-                    style: const TextStyle(color: Colors.red, fontSize: 16),
+                    'No se encontraron medicamentos.',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
                   ),
                 )
-              : _buildMedicamentosList(), // Construye la lista dinámica
+              : _buildMedicamentosList(),
     );
   }
 
   Widget _buildMedicamentosList() {
-    return _filteredMedicamentos.isEmpty
-        ? const Center(
-            child: Text(
-              'No se encontraron medicamentos.',
-              style: TextStyle(fontSize: 16, color: Colors.grey),
+    return ListView.builder(
+      padding: const EdgeInsets.all(8.0),
+      itemCount: _filteredMedicamentos.length,
+      itemBuilder: (context, index) {
+        final medicamento = _filteredMedicamentos[index];
+        return Card(
+          elevation: 2,
+          margin: const EdgeInsets.symmetric(vertical: 4),
+          child: ListTile(
+            title: Text(
+              medicamento['nombre']!,
+              style: const TextStyle(fontSize: 16),
             ),
-          )
-        : ListView.builder(
-            padding: const EdgeInsets.all(8.0),
-            itemCount: _filteredMedicamentos.length,
-            itemBuilder: (context, index) {
-              return Card(
-                elevation: 2,
-                margin: const EdgeInsets.symmetric(vertical: 4),
-                child: ListTile(
-                  title: Text(
-                    _filteredMedicamentos[index]['nombre'] ?? 'Sin nombre',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  leading: const Icon(Icons.medical_services_outlined),
-                  trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-                  onTap: () {
-                    // Acciones al seleccionar un medicamento
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text(
-                          'Seleccionaste: ${_filteredMedicamentos[index]['nombre']}',
-                        ),
-                      ),
-                    );
-                  },
+            subtitle: Text(medicamento['descripcion']!),
+            leading: const Icon(Icons.medical_services_outlined),
+            trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+            onTap: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Seleccionaste: ${medicamento['nombre']}'),
                 ),
               );
             },
-          );
+          ),
+        );
+      },
+    );
   }
 }
