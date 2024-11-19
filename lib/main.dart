@@ -1,19 +1,9 @@
-
 import 'package:flutter/material.dart';
-
-
 import 'screen/edit_profile_screen.dart';
 import 'screen/home_screen.dart';
 import 'screen/login_screen.dart';
 import 'screen/notifications_screen.dart';
-import 'screen/search_screen.dart';
 import 'screen/settings_screen.dart';
-import 'package:medistockmovil/screen/edit_profile_screen.dart';
-import 'package:medistockmovil/screen/home_screen.dart';
-import 'package:medistockmovil/screen/login_screen.dart';
-import 'package:medistockmovil/screen/notifications_screen.dart';
-import 'package:medistockmovil/screen/settings_screen.dart';
-
 
 void main() {
   runApp(const MyApp());
@@ -29,12 +19,18 @@ class MyApp extends StatelessWidget {
       title: 'MediStock Móvil',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'GatteModern', // Configura la fuente globalmente
+        textTheme: const TextTheme(
+          bodyLarge: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
+          bodyMedium: TextStyle(fontSize: 14.0),
+          titleLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        ),
       ),
       // Ruta inicial
-      initialRoute: '/login', // Renombrar '/' por '/login' para mayor claridad
+      initialRoute: '/login', // Login será la pantalla inicial
       // Configuración de rutas
       routes: {
-        '/': (context) => const LoginScreen(),
+        '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
         '/edit_profile': (context) => const EditProfileScreen(),
         '/notifications': (context) => const NotificationsScreen(),

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import '../widgets/base_scaffold.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -12,24 +14,41 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _isSearching = false; // Controla si estamos en modo búsqueda
   final TextEditingController _searchController = TextEditingController();
 
-  // Lista simulada de medicamentos
-  final List<String> _medicamentos = [
-    'Paracetamol',
-    'Ibuprofeno',
-    'Amoxicilina',
-    'Loratadina',
-    'Ranitidina',
-    'Cetirizina',
-    'Metformina',
-  ];
-
-  // Lista filtrada que se muestra en pantalla
-  List<String> _filteredMedicamentos = [];
+  List<dynamic> _medicamentos = []; // Lista de medicamentos desde la API
+  List<dynamic> _filteredMedicamentos = []; // Lista filtrada que se muestra en pantalla
+  bool _isLoading = true; // Controla si estamos cargando datos
+  String _errorMessage = ''; // Almacena errores de la carga
 
   @override
   void initState() {
     super.initState();
-    _filteredMedicamentos = _medicamentos; // Inicializar con todos los medicamentos
+    _fetchMedicamentos(); // Cargar medicamentos desde la API al iniciar
+  }
+
+  Future<void> _fetchMedicamentos() async {
+    try {
+      final response = await http.get(
+        Uri.parse('http://127.0.0.1:8000/productos/'),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          _medicamentos = json.decode(response.body);
+          _filteredMedicamentos = _medicamentos; // Inicializar lista filtrada
+          _isLoading = false;
+        });
+      } else {
+        setState(() {
+          _errorMessage = 'Error al cargar productos: ${response.statusCode}';
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Error al cargar productos: $e';
+        _isLoading = false;
+      });
+    }
   }
 
   void _filterMedicamentos(String query) {
@@ -39,7 +58,10 @@ class _HomeScreenState extends State<HomeScreen> {
       } else {
         _filteredMedicamentos = _medicamentos
             .where((medicamento) =>
-                medicamento.toLowerCase().contains(query.toLowerCase()))
+                medicamento['nombre']
+                    .toString()
+                    .toLowerCase()
+                    .contains(query.toLowerCase()))
             .toList();
       }
     });
@@ -80,7 +102,16 @@ class _HomeScreenState extends State<HomeScreen> {
           },
         ),
       ],
-      body: _buildMedicamentosList(), // Construye la lista dinámica
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _errorMessage.isNotEmpty
+              ? Center(
+                  child: Text(
+                    _errorMessage,
+                    style: const TextStyle(color: Colors.red, fontSize: 16),
+                  ),
+                )
+              : _buildMedicamentosList(), // Construye la lista dinámica
     );
   }
 
@@ -101,7 +132,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 margin: const EdgeInsets.symmetric(vertical: 4),
                 child: ListTile(
                   title: Text(
-                    _filteredMedicamentos[index],
+                    _filteredMedicamentos[index]['nombre'] ?? 'Sin nombre',
                     style: const TextStyle(fontSize: 16),
                   ),
                   leading: const Icon(Icons.medical_services_outlined),
@@ -111,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
                         content: Text(
-                          'Seleccionaste: ${_filteredMedicamentos[index]}',
+                          'Seleccionaste: ${_filteredMedicamentos[index]['nombre']}',
                         ),
                       ),
                     );

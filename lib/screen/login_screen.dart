@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'home_screen.dart'; 
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -12,15 +11,39 @@ class LoginScreenState extends State<LoginScreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+  bool _isAuthenticating = false; // Para mostrar estado de carga
 
-  void _login() {
+  // Simulación de autenticación
+  Future<bool> _authenticate(String username, String password) async {
+    await Future.delayed(const Duration(seconds: 1)); // Simula un delay
+    return username == "admin" && password == "1234"; // Usuario y contraseña válidos
+  }
+
+  void _login() async {
     if (_formKey.currentState!.validate()) {
-      
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => const HomeScreen()), // Redirigir a HomeScreen
+      setState(() {
+        _isAuthenticating = true; // Mostrar indicador de carga
+      });
+
+      // Simula autenticación
+      bool isValidUser = await _authenticate(
+        _usernameController.text,
+        _passwordController.text,
       );
+
+      setState(() {
+        _isAuthenticating = false; // Ocultar indicador de carga
+      });
+
+      if (isValidUser) {
+        // Navegar a la ruta '/home' usando el sistema de rutas
+        Navigator.pushReplacementNamed(context, '/home');
+      } else {
+        // Mostrar error si no es válido
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Usuario o contraseña incorrectos')),
+        );
+      }
     }
   }
 
@@ -30,13 +53,14 @@ class LoginScreenState extends State<LoginScreen> {
       appBar: AppBar(
         title: const Text('Inicio de sesión'),
       ),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              const SizedBox(height: 20),
               TextFormField(
                 controller: _usernameController,
                 decoration: const InputDecoration(labelText: 'Usuario'),
@@ -47,6 +71,7 @@ class LoginScreenState extends State<LoginScreen> {
                   return null;
                 },
               ),
+              const SizedBox(height: 10),
               TextFormField(
                 controller: _passwordController,
                 decoration: const InputDecoration(labelText: 'Contraseña'),
@@ -54,15 +79,20 @@ class LoginScreenState extends State<LoginScreen> {
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Por favor ingresa tu contraseña';
+                  } else if (value.length < 4) {
+                    return 'La contraseña debe tener al menos 4 caracteres';
                   }
                   return null;
                 },
               ),
               const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _login, // Al presionar, llamamos a _login
-                child: const Text('Iniciar sesión'),
-              ),
+              _isAuthenticating
+                  ? const CircularProgressIndicator() // Indicador de carga
+                  : ElevatedButton(
+                      onPressed: _login, // Llamamos al método _login
+                      child: const Text('Iniciar sesión'),
+                    ),
+              const SizedBox(height: 20),
             ],
           ),
         ),

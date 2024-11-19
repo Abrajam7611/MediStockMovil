@@ -27,13 +27,20 @@ class BaseScaffoldState extends State<BaseScaffold> {
   ];
 
   void _onItemTapped(int index) {
-    if (index == _selectedIndex) return; // Evita recargar la misma pantalla
+    // Si la ruta seleccionada es la misma que la actual, no hacer nada
+    if (ModalRoute.of(context)?.settings.name == _routes[index]) return;
 
+    // Cambiar al índice seleccionado
     setState(() {
       _selectedIndex = index;
     });
 
-    Navigator.pushReplacementNamed(context, _routes[index]);
+    // Navegar a la ruta correspondiente, eliminando todas las pantallas previas
+    Navigator.pushNamedAndRemoveUntil(
+      context,
+      _routes[index],
+      (Route<dynamic> route) => false, // Elimina todas las pantallas anteriores
+    );
   }
 
   @override
@@ -41,36 +48,48 @@ class BaseScaffoldState extends State<BaseScaffold> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
-        backgroundColor: const Color.fromARGB(255, 101, 166, 231),
+        backgroundColor: Colors.transparent, // Lo dejamos transparente para el gradiente
+        flexibleSpace: Container(
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Color.fromARGB(255, 101, 166, 231), // Azul
+                Color.fromARGB(255, 101, 204, 204), // Verde agua
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         actions: widget.actions,
       ),
       body: widget.body,
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Inicio',
+            icon: Icon(Icons.home, size: 35),
+            label: '',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.person),
+            icon: Icon(Icons.person, size: 35),
             label: 'Perfil',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.notifications, size: 35),
             label: 'Notificaciones',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
+            icon: Icon(Icons.settings, size: 35),
             label: 'Ajustes',
           ),
         ],
         currentIndex: _selectedIndex,
-        selectedItemColor: Colors.blue, // Color del ícono seleccionado
-        unselectedItemColor: Colors.grey.withOpacity(0.5), // Color de íconos no seleccionados
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: const Color.fromARGB(255, 70, 69, 69).withOpacity(0.5),
         onTap: _onItemTapped,
         showSelectedLabels: true,
         showUnselectedLabels: false,
-        iconSize: 30,
+        iconSize: 45,
         type: BottomNavigationBarType.fixed,
       ),
     );
