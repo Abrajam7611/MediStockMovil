@@ -4,6 +4,7 @@ import 'screen/home_screen.dart';
 import 'screen/login_screen.dart';
 import 'screen/notifications_screen.dart';
 import 'screen/settings_screen.dart';
+import 'screen/splash_screen.dart'; // Importa el Splash Screen
 
 void main() {
   runApp(const MyApp());
@@ -18,10 +19,12 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'MediStock Móvil',
 
-      // Ruta inicial
-      initialRoute: '/login', // Login será la pantalla inicial
+      // Ruta inicial: SplashScreen
+      initialRoute: '/splash',
+
       // Configuración de rutas
       routes: {
+        '/splash': (context) => const SplashScreen(),
         '/login': (context) => const LoginScreen(),
         '/home': (context) => const HomeScreen(),
         '/edit_profile': (context) => const EditProfileScreen(),
