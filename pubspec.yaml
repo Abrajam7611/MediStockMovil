@@ -19,9 +19,3 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-  fonts:
-    - family: Roboto
-      fonts:
-        - asset: assets/fonts/GatteModern-Medium.otf
-          weight: 700

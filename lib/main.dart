@@ -17,15 +17,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'MediStock Móvil',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'GatteModern', // Configura la fuente globalmente
-        textTheme: const TextTheme(
-          bodyLarge: TextStyle(fontSize: 16.0, fontWeight: FontWeight.normal),
-          bodyMedium: TextStyle(fontSize: 14.0),
-          titleLarge: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-        ),
-      ),
+
       // Ruta inicial
       initialRoute: '/login', // Login será la pantalla inicial
       // Configuración de rutas
